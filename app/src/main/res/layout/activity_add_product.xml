@@ -8,7 +8,7 @@
         tools:context=".AddProductActivity"
         android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/gray3"
@@ -24,9 +24,27 @@
                 android:singleLine="true"
                 android:layout_marginBottom="15dp"
                 android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </android.support.design.widget.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/gray3"
+            android:theme="@style/AlertDialog.AppCompat"
+    >
+
+        <EditText
+                android:layout_width="match_parent"
+                android:hint="@string/date_product"
+                android:id="@+id/date_product"
+                android:textSize="15sp"
+                android:text=""
+                android:singleLine="true"
+                android:layout_marginBottom="15dp"
+                android:layout_height="wrap_content" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="@color/gray3"
@@ -36,12 +54,34 @@
         <EditText
                 android:layout_width="match_parent"
                 android:hint="@string/date_code"
-                android:id="@+id/date_product"
+                android:id="@+id/code_product"
                 android:textSize="15sp"
                 android:text=""
                 android:singleLine="true"
                 android:layout_marginBottom="15dp"
                 android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/gray3"
+            android:theme="@style/AlertDialog.AppCompat"
+    >
+
+        <EditText
+                android:layout_width="match_parent"
+                android:hint="@string/tag"
+                android:id="@+id/tag"
+                android:textSize="15sp"
+                android:text=""
+                android:singleLine="true"
+                android:layout_marginBottom="15dp"
+                android:layout_height="wrap_content" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:text="@string/valide"
+    android:id="@+id/validation_product"/>
 
 </LinearLayout>

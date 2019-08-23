@@ -6,4 +6,7 @@
     <string name="change_layout_manager">Change Layout</string>
     <string name="designation">Désignation</string>
     <string name="date_code">Date code</string>
+    <string name="date_product">Code produit</string>
+    <string name="tag">Tag</string>
+    <string name="valide">Valider</string>
 </resources>
