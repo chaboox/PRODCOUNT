@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse 
     gridLayoutManager = GridLayoutManager(this, 2)
     setRecyclerViewItemTouchListener()
 
-
+    getProducts()
     imageRequester = ImageRequester(this)
     add_product.setOnClickListener { startActivity(Intent(this, AddProductActivity::class.java)) }
 
