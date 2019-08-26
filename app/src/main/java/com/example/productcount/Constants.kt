@@ -1,6 +1,6 @@
 package com.example.productcount
 
-
+val CURRENT_USER = "Admin"
 val CODE_PRODUIT = "code_produit"
 val COUNT = "count"
 val CREATION_TIME = "creation_time"

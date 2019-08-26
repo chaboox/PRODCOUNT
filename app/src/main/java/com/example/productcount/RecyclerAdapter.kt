@@ -63,11 +63,11 @@ class RecyclerAdapter(private val products: ArrayList<Product>) : RecyclerView.A
       //Picasso.with(view.context).load(product.url).into(view.itemImage)
       view.itemDate.text = product.designation
       val code = zeros.subSequence(0, 5 - product.count.toString().length ).toString() + product.count.toString()
-      view.itemDescription.text = code
+      view.itemDescription.text = product.date_code + product.code_produit + code
       view.add_count.setOnClickListener {
         product.count =  view.number.text.toString().toInt() + product.count.toString().toInt()
         val code = zeros.subSequence(0, 5 - product.count.toString().length ).toString() + product.count.toString()
-        view.itemDescription.text = code
+        view.itemDescription.text = product.date_code + product.code_produit + code
         updateCount(product, view.number.text.toString().toLong())
         view.number.setText("")
         view.add_number_layout.visibility = View.GONE}

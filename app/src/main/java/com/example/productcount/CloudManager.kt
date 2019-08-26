@@ -60,6 +60,24 @@ fun getProducts(){
 
 fun updateCount(product: Product, number: Long){
     val db = initializeCloud()
-    val ref = db.collection("products").document(product.key.toString())
-    ref.update(COUNT, FieldValue.increment(number))
+    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+    val zeros = "00000000"
+    val currentDate = sdf.format(Date())
+    val refProduct = db.collection("products").document(product.key.toString())
+    val refHistory = db.collection("Histories").document()
+    //ref.update(COUNT, FieldValue.increment(number))
+
+    db.runTransaction { transaction ->
+
+
+        // Note: this could be done without a transaction
+        //       by updating the population using FieldValue.increment()
+        transaction.update(refProduct,COUNT, FieldValue.increment(number))
+        transaction.update(refProduct, LAST_MODIFICATION, currentDate)
+        transaction.set(refHistory, History(CURRENT_USER, currentDate, "Ajout " + number.toString() + " au comptage", product.designation, product.getCode() ))
+
+        // Success
+        null
+    }.addOnSuccessListener { Log.d(TAG, "Transaction success!") }
+        .addOnFailureListener { e -> Log.w(TAG, "Transaction failure.", e) }
 }

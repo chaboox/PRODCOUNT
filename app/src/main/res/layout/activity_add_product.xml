@@ -37,7 +37,7 @@ android:orientation="vertical">
         <EditText
                 android:layout_width="match_parent"
                 android:hint="@string/date_product"
-                android:id="@+id/date_product"
+                android:id="@+id/code_product"
                 android:textSize="15sp"
                 android:text=""
                 android:singleLine="true"
@@ -55,7 +55,7 @@ android:orientation="vertical">
         <EditText
                 android:layout_width="match_parent"
                 android:hint="@string/date_code"
-                android:id="@+id/code_product"
+                android:id="@+id/date_product"
                 android:textSize="15sp"
                 android:text=""
                 android:singleLine="true"
