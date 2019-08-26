@@ -41,11 +41,29 @@ fun addProduct( designation: String, codeProduit: String, dateCode: String, tag:
 
 fun addProduct(product: Product, handler: Handler){
     val db = initializeCloud()
-    db.collection("products").document( product.code_produit +product.date_code  ).set(product).addOnSuccessListener {
+    /*db.collection("products").document( product.code_produit +product.date_code  ).set(product).addOnSuccessListener {
         System.out.println("C DATE is SUCCESS ")
         handler.sendEmptyMessage(PRODUCT_ADDED) }
         .addOnFailureListener {  System.out.println(" C DATE is  ERROR")
             handler.sendEmptyMessage(PRODUCT_ADD_ERROR) }
+*/
+    val productRef= db.collection("products").document( product.code_produit +product.date_code  )
+    val refHistory = db.collection("Histories").document()
+    db.runTransaction { transaction ->
+
+
+        // Note: this could be done without a transaction
+        //       by updating the population using FieldValue.increment()
+        transaction.set(productRef,product)
+        transaction.set(refHistory, History(CURRENT_USER, product.creation_time, "Création produit", product.designation, product.getCode() ))
+
+        // Success
+        null
+    }.addOnSuccessListener {
+        handler.sendEmptyMessage(PRODUCT_ADDED)
+        Log.d(TAG, "Transaction success!") }
+        .addOnFailureListener { e -> Log.w(TAG, "Transaction failure.", e)
+            handler.sendEmptyMessage(PRODUCT_ADD_ERROR)}
 }
 
 fun getProducts(){
