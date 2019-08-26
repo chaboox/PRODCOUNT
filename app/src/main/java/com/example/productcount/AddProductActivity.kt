@@ -19,12 +19,17 @@ class AddProductActivity : AppCompatActivity() {
         handler = AddProductHandler()
         //TODO: Add if ref dont existe
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val zeros = "00000000"
         val currentDate = sdf.format(Date())
         validation_product.setOnClickListener {
             add_progress.setVisibility(View.VISIBLE)
+            val matricul =  code_product.text.toString() + date_product.text
+
             val product = Product(designation.text.toString(), code_product.text.toString(), date_product.text.toString(),
-                currentDate, currentDate, tag.text.toString(), 1)
-            addProduct(product, handler as AddProductHandler )
+                currentDate, currentDate, tag.text.toString(), 1, matricul)
+            val code = zeros.subSequence(0, 5 - product.count.toString().length ).toString() + product.count.toString()
+
+            addProduct(product, handler as AddProductHandler)
             //addProduct(designation.text.toString(), code_product.text.toString(), date_product.text.toString(), tag.text.toString(),
             //handler as AddProductHandler)
         }

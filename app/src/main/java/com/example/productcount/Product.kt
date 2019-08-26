@@ -7,5 +7,6 @@ data class Product(
     val last_modification: String? = null,
     val creation_time: String? = null,
     val tag: String? = null,
-    val count: Int? = null
+    var count: Int? = 1,
+    val key :String? = null
 )

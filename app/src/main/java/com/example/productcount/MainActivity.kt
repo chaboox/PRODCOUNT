@@ -37,8 +37,9 @@ import org.jetbrains.anko.longToast
 import org.jetbrains.anko.toast
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
-class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse {
+class MainActivity : AppCompatActivity() {
 
   private var photosList: ArrayList<Photo> = ArrayList()
   private lateinit var imageRequester: ImageRequester
@@ -59,14 +60,27 @@ class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse 
     setContentView(R.layout.activity_main)
     linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     recyclerView.layoutManager = linearLayoutManager
-    adapter = RecyclerAdapter(photosList)
-    recyclerView.adapter = adapter
-    setRecyclerViewScrollListener()
-    gridLayoutManager = GridLayoutManager(this, 2)
-    setRecyclerViewItemTouchListener()
+
+
+      val db = initializeCloud()
+      val docRef = db.collection("products")
+      docRef.get().addOnSuccessListener { documentSnapshot ->
+
+          val products = documentSnapshot.toObjects(Product::class.java)
+          System.out.println("CITYYY" + products.get(0) + "lllll   " + products.size)
+          val productss = ArrayList<Product>(products)
+          adapter = RecyclerAdapter(productss)
+          recyclerView.adapter = adapter
+          //setRecyclerViewScrollListener()
+          gridLayoutManager = GridLayoutManager(this, 2)
+          //setRecyclerViewItemTouchListener()
+      }
+
+
+
 
     getProducts()
-    imageRequester = ImageRequester(this)
+    //imageRequester = ImageRequester(this)
     add_product.setOnClickListener { startActivity(Intent(this, AddProductActivity::class.java)) }
 
   }
@@ -85,7 +99,7 @@ class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse 
     }
   }
 
-  private fun setRecyclerViewScrollListener() {
+/*  private fun setRecyclerViewScrollListener() {
     recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
       override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
         super.onScrollStateChanged(recyclerView, newState)
@@ -95,7 +109,7 @@ class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse 
         }
       }
     })
-  }
+  }*/
 
   private fun setRecyclerViewItemTouchListener() {
 
@@ -109,8 +123,8 @@ class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse 
       override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
         //3
         val position = viewHolder.adapterPosition
-        photosList.removeAt(position)
-        recyclerView.adapter!!.notifyItemRemoved(position)
+        //photosList.removeAt(position)
+        //recyclerView.adapter!!.notifyItemRemoved(position)
       }
     }
 
@@ -134,9 +148,9 @@ class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse 
 
   override fun onStart() {
     super.onStart()
-    if (photosList.size == 0) {
-      requestPhoto()
-    }
+   // if (photosList.size == 0) {
+    //  requestPhoto()
+   // }
 
   }
 
@@ -149,10 +163,10 @@ class MainActivity : AppCompatActivity(), ImageRequester.ImageRequesterResponse 
 
   }
 
-  override fun receivedNewPhoto(newPhoto: Photo) {
+  /*override fun receivedNewPhoto(newPhoto: Photo) {
     runOnUiThread {
       photosList.add(newPhoto)
       adapter.notifyItemInserted(photosList.size-1)
     }
-  }
+  }*/
 }

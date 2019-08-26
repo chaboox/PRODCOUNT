@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 import android.os.Handler
+import com.google.firebase.firestore.FieldValue
 
 fun initializeCloud() = FirebaseFirestore.getInstance()
 
@@ -40,8 +41,8 @@ fun addProduct( designation: String, codeProduit: String, dateCode: String, tag:
 
 fun addProduct(product: Product, handler: Handler){
     val db = initializeCloud()
-    db.collection("products").add(product).addOnSuccessListener {
-        System.out.println(" C DATE is SUCCESS ")
+    db.collection("products").document( product.code_produit +product.date_code  ).set(product).addOnSuccessListener {
+        System.out.println("C DATE is SUCCESS ")
         handler.sendEmptyMessage(PRODUCT_ADDED) }
         .addOnFailureListener {  System.out.println(" C DATE is  ERROR")
             handler.sendEmptyMessage(PRODUCT_ADD_ERROR) }
@@ -49,14 +50,16 @@ fun addProduct(product: Product, handler: Handler){
 
 fun getProducts(){
     val db = initializeCloud()
-    db.collection("products")
-        .get()
-        .addOnSuccessListener { result ->
-            for (document in result) {
-                Log.d("CLOUDMANAGFER>>", "${document.id} => ${document.data}")
-            }
-        }
-        .addOnFailureListener { exception ->
-            Log.w("CLOUDMANAGFER>>", "Error getting documents.", exception)
-        }
+    val docRef = db.collection("products")
+    docRef.get().addOnSuccessListener { documentSnapshot ->
+
+        val products = documentSnapshot.toObjects(Product::class.java)
+        System.out.println("CITYYY" + products.get(0) + "lllll   " + products.size + documentSnapshot)
+    }
+}
+
+fun updateCount(product: Product, number: Long){
+    val db = initializeCloud()
+    val ref = db.collection("products").document(product.key.toString())
+    ref.update(COUNT, FieldValue.increment(number))
 }
